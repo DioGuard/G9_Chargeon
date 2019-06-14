@@ -40,7 +40,7 @@ namespace Chargeon {
 		private static void PrintLogotype() {
 
 			(int h, int w) size_logo = InfoReader.ReadSizeImage("images.xml", "logotype");
-			char[,] logo = InfoReader.ReadCharImage("title.txt", size_logo);
+			char[,] logo = InfoReader.ReadCharImage("chars/title.txt", size_logo);
 
 			int count_color = 15;
 			int time = 300;
