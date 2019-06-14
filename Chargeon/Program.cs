@@ -46,11 +46,11 @@ namespace Chargeon {
 			char[,] logo = InfoReader.ReadCharImage("title.txt", size_logo);
 
 			int count_color = 4;
-			ConsoleColor[] color = { ConsoleColor.White, ConsoleColor.Gray, ConsoleColor.DarkGray, ConsoleColor.Black }; 
+			//ConsoleColor[] color = { ConsoleColor.White, ConsoleColor.Gray, ConsoleColor.DarkGray, ConsoleColor.Black }; 
 
 			for (int i = 0; i < count_color; i++) {
 				Console.SetCursorPosition(W / 2 - Name.Length, H / 2);
-				Console.ForegroundColor = color[i];
+				//Console.ForegroundColor = color[i];
 
 				Draw(logo, size_logo);
 
