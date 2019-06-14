@@ -11,77 +11,97 @@ namespace Chargeon {
 		private const int H = 40;
 
 		private const string COMPANY = "[D.G] Darkhouse Games";
-		private const string NAME = "Chargeon v.0.1";
+		private const string NAME = "Chargeon";
+		private const string VERSION = "v.0.1";
 
 
 		static void Main(string[] args) {
 			SetupWindow();
 			PrintLogotype();
-
+			//InfoReader.ReadCharImage("images.xml", "logotype");
 			//Map map = new Map("map_0.txt");
 			//Draw(map);
 
+			//Draw(InfoReader.ReadCharImage("images.xml", "logotype"));
+
 			//while(true) {
-				
+
 			//}
 
-			Console.ReadKey();
+			//Console.ReadKey();
 
 		}
 
 		private static void SetupWindow() {
-			Console.Title = NAME;
+			Console.Title = NAME + " " + VERSION + " " + COMPANY;
 
 			Console.SetWindowSize(W, H);
 			Console.SetBufferSize(W, H);
 		}
 
-
 		private static void PrintLogotype() {
 
+			int time = 200;
+			int keep;
+
 			(int h, int w) size_logo = InfoReader.ReadSizeImage("images.xml", "logotype");
-			char[,] logo = InfoReader.ReadCharImage("title.txt", size_logo);
+			char[,] logo = InfoReader.ReadCharImage("chars/title.txt", size_logo);
 
-			int count_color = 4;
-			ConsoleColor[] color = { ConsoleColor.Black, ConsoleColor.DarkBlue, ConsoleColor.Blue, ConsoleColor.White }; 
+			ConsoleColor[] color = { ConsoleColor.Black,
+									ConsoleColor.DarkBlue,
+									ConsoleColor.DarkCyan,
+									ConsoleColor.Cyan,
+									ConsoleColor.White
+			}; 
 
-			for (int i = 0; i < count_color; i++) {
+			for (int i = 0; i < color.Length * 2; i++) {
+				keep = i < color.Length ? i : color.Length * 2 - i - 1;
 
-				Console.ForegroundColor = color[i];
-				Draw(logo, size_logo);
-				Console.SetCursorPosition(W / 2 - COMPANY.Length / 2, H / 2 + 1);
-				Console.WriteLine(COMPANY);
+				Draw(logo, size_logo, color[keep]);
+				SimpleDraw(COMPANY, W / 2 - COMPANY.Length / 2, H / 2 + 1, color[keep]);
+
 				Console.CursorLeft = W / 2;
-
-				Thread.Sleep(300);
-			}
-
-			Thread.Sleep(3000);
-
-			for (int i = count_color - 1; i >= 0; i--) {
-
-				Console.ForegroundColor = color[i];
-				Draw(logo, size_logo);
-				Console.SetCursorPosition(W / 2 - COMPANY.Length / 2, H / 2 + 1);
-				Console.WriteLine(COMPANY);
-				Console.CursorLeft = W / 2;
-
-				Thread.Sleep(300);
+				Thread.Sleep(keep * time);
+				Console.Clear();
 			}
 
 		}
 
-		public static void Draw(char[,] image, (int h, int w) size) {
-			Random rand = new Random();
-			Console.Clear();
+
+		public static void SimpleDraw(string str, int left, int top, ConsoleColor color = ConsoleColor.White) {
+			Console.SetCursorPosition(left, top);
+			Console.ForegroundColor = color;
+			Console.WriteLine(COMPANY);
+		}
+
+		public static void Draw(char[,] image, (int h, int w) size, ConsoleColor color = ConsoleColor.White) {
+			Console.ForegroundColor = color;
 
 			for (int y = 0; y < size.h; y++) {
 
-				//Console.ForegroundColor = ConsoleColor.White - rand.Next(15);
 				Console.SetCursorPosition(W / 2 - size.w / 2, H / 2 - size.h + y);
 
 				for (int x = 0; x < size.w; x++) {
+					if (image[y, x] == '█')
+						Console.Write('#');
+					else
 						Console.Write(image[y, x]);
+				}
+
+				Console.WriteLine();
+			}
+
+		}
+
+		public static void Draw(char[,] image, ConsoleColor color = ConsoleColor.White) {
+			Console.ForegroundColor = color;
+
+			for (int y = 0; y < image.Rank; y++) {
+
+				//Console.SetCursorPosition(W / 2 - image.Length / 2, H / 2 - image.Rank + y);
+
+				for (int x = 0; x < image.Length; x++) {
+					Console.Write(image[y, x]);
 				}
 
 				Console.WriteLine();
@@ -93,20 +113,52 @@ namespace Chargeon {
 			Console.Clear();
 
 			for (int y = 0; y < m.H; y++) {
+
 				for (int x = 0; x < m.W; x++) {
+
 					if (m.map[y, x] == m.WALL)
 						Console.Write(m.map[y, x]);
 					//else {
 					//Console.Write(m.GetCollusionGO(m.go, y, x));
 					//}
 				}
+
 				Console.WriteLine();
 			}
+
 		}
 
 	}
 
 	internal static class InfoReader {
+
+		public static char[,] ReadCharImage(string file, string key) {
+
+			(int h, int w) = ReadSizeImage(file, key);
+
+			return ReadCharImage("chars/player.txt", (h, w));
+		}
+
+		public static string ReadImage(string file, (int h, int w) size) {
+
+			string temp = "";
+
+			XmlDocument doc = new XmlDocument();
+			doc.Load(file);
+			XmlElement root = doc.DocumentElement;
+
+			foreach (XmlNode node in root) {
+					foreach (XmlNode child in node.ChildNodes) {
+
+						if (child.Name == "chars")
+							temp = child.InnerText;
+
+					}
+
+			}
+
+			return temp;
+		}
 
 		public static char[,] ReadCharImage(string file, (int h, int w) size) {
 
@@ -136,20 +188,22 @@ namespace Chargeon {
 			foreach (XmlNode node in root) {
 
 				if (node.Attributes.GetNamedItem("name").Value == key) {
+
 					foreach (XmlNode child in node.ChildNodes) {
-						if (child.Name == "H") {
+
+						if (child.Name == "H")
 							size.h = Convert.ToInt32(child.InnerText);
-						}
+
 						if (child.Name == "W")
 							size.w = Convert.ToInt32(child.InnerText);
 					}
+
 				}
 
 			}
 
 			return size;
 		}
-
 
 	}
 }
