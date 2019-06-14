@@ -10,11 +10,8 @@ namespace Chargeon {
 		private const int W = 140;
 		private const int H = 40;
 
-		private static readonly string _name = "Chargeon v.0.1";
-
-		public static string Name {
-			get { return _name; }
-		}
+		private const string COMPANY = "[D.G] Darkhouse Games";
+		private const string NAME = "Chargeon v.0.1";
 
 		static void Main(string[] args) {
 			SetupWindow();
@@ -32,32 +29,59 @@ namespace Chargeon {
 		}
 
 		private static void SetupWindow() {
-			Console.Title = Name;
+			Console.Title = NAME;
 
 			Console.SetWindowSize(W, H);
 			Console.SetBufferSize(W, H);
 		}
 
 
-		private static void PrintLogotype() {
-			(int h, int w) size_logo = InfoReader.ReadSizeImage("images.xml", "logotype");
 
-			
+		private static void PrintLogotype() {
+
+			(int h, int w) size_logo = InfoReader.ReadSizeImage("images.xml", "logotype");
 			char[,] logo = InfoReader.ReadCharImage("title.txt", size_logo);
 
-			int count_color = 4;
-			//ConsoleColor[] color = { ConsoleColor.White, ConsoleColor.Gray, ConsoleColor.DarkGray, ConsoleColor.Black }; 
+			int count_color = 15;
+			int time = 300;
 
 			for (int i = 0; i < count_color; i++) {
-				Console.SetCursorPosition(W / 2 - Name.Length, H / 2);
-				//Console.ForegroundColor = color[i];
 
-				Draw(logo, size_logo);
+				Draw(logo, size_logo, i);
+				Console.SetCursorPosition(W / 2 - COMPANY.Length / 2, H / 2 + 1);
+				Console.WriteLine(COMPANY);
+				Console.CursorLeft = W / 2;
+				Thread.Sleep(time);
+			}
 
-				Console.CursorLeft = W / 2 - Name.Length / 2;
+			/*
+			Thread.Sleep(10 * time);
 
-				Thread.Sleep(1000);
-				Console.Clear();
+			for (int i = count_color - 1; i >= 0; i--) {
+
+				Draw(logo, size_logo, i * i);
+				Console.SetCursorPosition(W / 2 - COMPANY.Length / 2, H / 2 + 1);
+				Console.WriteLine(COMPANY);
+				Console.CursorLeft = W / 2;
+				Thread.Sleep(time);
+			}*/
+
+		}
+
+		public static void Draw(char[,] image, (int h, int w) size, int offset) {
+			Random rand = new Random();
+			Console.Clear();
+
+			for (int y = 0; y < size.h; y++) {
+
+				Console.SetCursorPosition(W / 2 - size.w / 2, H / 2 - size.h + y);
+
+				for (int x = 0; x < size.w; x++) {
+					Console.ForegroundColor = ConsoleColor.White - (x / 7 + offset) % 15;
+					Console.Write(image[y, x]);
+				}
+
+				Console.WriteLine();
 			}
 
 		}
@@ -73,19 +97,6 @@ namespace Chargeon {
 						//Console.Write(m.GetCollusionGO(m.go, y, x));
 					//}
 				}
-				Console.WriteLine();
-			}
-
-		}
-
-		public static void Draw(char[,] image, (int h, int w) size) {
-			Console.Clear();
-
-			for (int y = 0; y < size.h; y++) {
-				for (int x = 0; x < size.w; x++) {
-						Console.Write(image[y, x]);
-				}
-
 				Console.WriteLine();
 			}
 
