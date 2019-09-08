@@ -4,8 +4,9 @@ using System.IO;
 namespace Chargeon {
 	internal class Map {
 		private const char _WALL = '█';
-		public readonly int H;
-		public readonly int W;
+		private const string MAP_INFO = "images/map.xml";
+		//public readonly int H;
+		//public readonly int W;
 
 		public char[,] map;
 
@@ -19,32 +20,20 @@ namespace Chargeon {
 		}
 
 
-		public Map(string path) {
+		public Map(string mapName) {
+			map = InfoReader.ReadCharImage(MAP_INFO, "map");
 
-			StreamReader sr = new StreamReader(path);
+			//W = Convert.ToInt32(sr.ReadLine());
+			//H = Convert.ToInt32(sr.ReadLine());
 
-			W = Convert.ToInt32(sr.ReadLine());
-			H = Convert.ToInt32(sr.ReadLine());
-
-			map = new char[H, W];
-
-			string temp;
-
-			for (int y = 0; y < H; y++) {
-				temp = sr.ReadLine();
-
-				for (int x = 0; x < W; x++) {
-					map[y, x] = temp[x];
-				}
-			}
+			//map = new char[H, W];
 
 			go = new GameObject[4];
 			go[0] = new Player(1, 1, "Jimbo", '@');
-			go[1] = new Chest(9,  5);
+			go[1] = new Chest( 9, 5);
 			go[2] = new Chest(10, 5);
 			go[3] = new Chest(11, 5);
 
-			sr.Close();
 		}
 
 		public void DrawGO() {

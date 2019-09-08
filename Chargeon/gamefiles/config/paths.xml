@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<init>
+  <info name="chars">
+    <path>gamefiles/config/chars.xml</path>
+  </info>
+
+  <info name="maps">
+    <path>gamefiles/config/maps.xml</path>
+  </info>
+</init>

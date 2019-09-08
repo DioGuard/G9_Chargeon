@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<images>
+  <image name="logotype">
+    <H>9</H>
+    <W>21</W>
+    <chars>images/chars/logotype.txt</chars>
+  </image>
+  
+  <image name="title">
+    <H>6</H>
+    <W>36</W>
+    <chars>images/chars/title.txt</chars>
+  </image>
+  
+  <image name="player">
+    <H>16</H>
+    <W>32</W>
+    <chars>chars/player.txt</chars>
+  </image>
+  <image name="rat">
+    <H>19</H>
+    <W>34</W>
+    <chars>chars/rat.txt</chars>
+  </image>
+  <image name="littlehead">
+    <H>16</H>
+    <W>32</W>
+    <chars>chars/littlehead.txt</chars>
+  </image>
+  
+  <image name="logotype1">
+    <H>45</H>
+    <W>27</W>
+    <chars>images/chars/logotype1.txt</chars>
+  </image>
+
+  <image name="butterfly">
+    <H>6</H>
+    <W>22</W>
+    <chars>images/chars/butterfly.txt</chars>
+  </image>
+  
+</images>

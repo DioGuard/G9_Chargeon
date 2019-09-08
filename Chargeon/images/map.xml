@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<images>
+  <image name="map">
+    <H>10</H>
+    <W>20</W>
+    <chars>images/chars/map.txt</chars>
+  </image>
+  
+</images>

@@ -26,6 +26,16 @@
 
 		private bool CheckInterval(int num, int min, int max) =>
 			(num >= min && num < max) ? true : false;
+		/*
+		public void Move(int dirY, int dirX) {
+			if (!CheckInterval(y + dirY, 0, Location.H) || !CheckInterval(x + dirX, 0, Location.W))
+				return;
+
+			if (Location.location[y + dirY, x + dirX] != '█') {
+				y += dirY;
+				x += dirX;
+			}
+		}*/
 	}
 }
 
